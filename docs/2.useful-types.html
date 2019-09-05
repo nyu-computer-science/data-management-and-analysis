@@ -458,14 +458,13 @@ class: center, middle
 # Decorators
 Not just to make your windows pretty.
 
-Imagine this function
+Imagine this function:
 ```python
-def call_it(func, n):
-    def new_func(x):
-        res = x
-        for i in range(n):
-            res = func(res)
-        return(res)
+def meatify(old_func):
+    def new_func():
+        res = old_func()
+        res += " with bacon, sausage, and pepperoni"
+        return res
     return new_func
 ```
 
@@ -476,14 +475,18 @@ Functions that decorate othere functions.
 
 And this innocent function
 ```python
-def double(num):
-    return num * 2
+def make_pizza():
+    return 'pizza is made'
 ```
 
-Triggered by another function
+Meatified by the function
 ```python
-my_func = call_it(double, 3)
-print(my_func(2))
+make_meat_lovers_pizza= meatify(make_some_pizza)
+```
+
+Now to make a meat lover's pizza:
+```python
+make_meat_lovers_pizza()
 ```
 
 This pattern is called the Decorator pattern.  The `call_it` function decorates, or adds features and functionality to the `double_num` function that don't exist in the original.
