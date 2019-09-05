@@ -479,9 +479,9 @@ def make_pizza():
     return 'pizza is made'
 ```
 
-Meatified by the function
+Meatified by the `meatify` function
 ```python
-make_meat_lovers_pizza= meatify(make_some_pizza)
+make_meat_lovers_pizza = meatify(make_some_pizza)
 ```
 
 Now to make a meat lover's pizza:
@@ -489,7 +489,7 @@ Now to make a meat lover's pizza:
 make_meat_lovers_pizza()
 ```
 
-This pattern is called the Decorator pattern.  The `call_it` function decorates, or adds features and functionality to the `double_num` function that don't exist in the original.
+This pattern is called the Decorator pattern.  The `meatify` function decorates, or adds features (perhaps undesirable) and functionality to the `make_pizza` function that don't exist in the original.
 
 ---
 
