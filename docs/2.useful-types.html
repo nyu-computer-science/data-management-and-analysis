@@ -477,8 +477,6 @@ This pattern is called the Decorator pattern.  The `meatify` function decorates,
 ## Syntactic sugar
 Now 25% more free!
 
-Decorators are so common that there is a special syntax for applying them.
-
 Remember this innocent function?
 ```python
 def make_pizza():
@@ -490,7 +488,7 @@ And we decorated it like this:
 make_meat_lovers_pizza = meatify(make_some_pizza)
 ```
 
-You can now decorate it instad with syntactic sugar.
+You can also decorate it instead with syntactic sugar.
 ```python
 @meatify
 def make_pizza():
@@ -525,22 +523,17 @@ c = Cat('Paw Newman', 10)
 print(c.name) # Paw Newman
 ```
 
+You probably were taught that you *should* create getter methods
+- Setters allow you to enforce validation on properties prior to setting them.
+- Getters provide public access to otherwise private properties.
+
 ---
 
 # Classes
 ## Getters and setters
-You probably were taught that you *should* create public getters and setters to provide access to private instance properties.
-- Setters allow you to enforce some kind of validation on properties prior to setting them.
-- Getters provide public access to otherwise private properties.
 
 ```python
 ...
-    def get_name(self):
-        return self.name
-
-    def set_name(self, name):
-        self.name = name
-
     def cuteness_factor(self):
         return self.cuteness_factor
 
@@ -549,13 +542,14 @@ You probably were taught that you *should* create public getters and setters to 
             self.cuteness_factor = cuteness_factor
         else:
             # raise a custom error
-            raise CutenessError("{} is too cute".format(self.get_name()))
+            raise CutenessOverloadError("{} is too cute".format(self.get_name()))
 ...
 ```
 
 ```python
 c = Cat('Paw Newman', 10)
-print(c.get_name()) # Paw Newman
+print(c.get_cuteness_factor()) # 10
+c.set_cuteness_factor(999) # CutenessOverloadError!
 ```
 
 ---
@@ -565,7 +559,7 @@ print(c.get_name()) # Paw Newman
 
 A generic Error class that inherits from Exception
 ```python
-class CutenessError(Exception):
+class CutenessOverloadError(Exception):
     pass
 ```
 
@@ -573,8 +567,8 @@ Handle errors
 ```python
 try:
     cat = Cat('Chairman Meow', 88888)
-except CutenessError as e:
-    print('uh oh, your cat is too cute: {}'.format(e))
+except CutenessOverloadError as e:
+    print('uh oh, this cat is too cute: {}'.format(e))
 ```
 
 ---
