@@ -34,7 +34,7 @@ class: center, middle
 ---
 
 # Who are you?  Where is Prof. Versoza?
-## Good questions
+## Good questions!
 We'll talk about it... it's going to be fine.
 
 ---
@@ -47,6 +47,28 @@ class: center, middle
 
 # Lists
 Good for grouping of similar type values together into one bundle and performing some batch process on them.
+
+Some things you can do with lists:
+```python
+salsa_verde = ['tomatillos', 'jalepeños', 'garlic', 'cilantro', 'salt']
+
+# grab the salt
+last_but_not_least = salsa_verde[-1]
+
+# pass the pepper
+mild = salsa_verde[0 :  salsa_verde.find('jalepeños')]
+mild = mild + salsa_verde[salsa_verde.find('jalepeños') : ]
+
+# mix it up
+import random
+random.shuffle(salsa_verde)
+
+# straighten it out and flip it in reverse
+salsa_verde.sort().reverse()
+
+```
+
+
 
 ---
 
