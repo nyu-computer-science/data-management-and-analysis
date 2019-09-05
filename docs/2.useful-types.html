@@ -20,10 +20,11 @@ Data Management and Analysis
 5. Dictionaries
 6. Sets
 7. Neverending arguments
-8. Functions of the finest order
-9. Lambdas
-10. Decorators
-11. Conclusions
+8. Unpacking unpacking
+9. Functions of the finest order
+10. Lambdas
+11. Decorators
+12. Conclusions
 
 ---
 
@@ -46,9 +47,7 @@ class: center, middle
 ---
 
 # Lists
-Good for grouping of similar type values together into one bundle and performing some batch process on them.
-
-Some things you can do with lists:
+Often used for grouping related values together into one bundle.
 ```python
 # list of ingredients
 salsa_verde = ['tomatillos', 'serrano chile', 'garlic', 'onion', 'cilantro', 'kosher salt']
@@ -60,14 +59,20 @@ len(salsa_verde)
 salsa_verde[-1]
 
 # pass the pepper
-mild_salsa = salsa_verde[0 : salsa_verde.index('serrano chile')] + 
-                             salsa_verde[salsa_verde.index('serrano chile') + 1 : ]
+mild_salsa = salsa_verde[ 0 : salsa_verde.index('serrano chile') ] + 
+             salsa_verde[ salsa_verde.index('serrano chile') + 1 : ]
 
 # mix it all up
 import random
 random.shuffle(mild_salsa)
 mild_salsa
+```
 
+---
+
+# Lists
+Continued...
+```python
 # straighten it up and flip it in reverse
 mild_salsa.sort()
 mild_salsa.reverse()
@@ -75,10 +80,27 @@ mild_salsa.reverse()
 # treble the recipe
 mild_salsa = mild_salsa * 3
 
+# did we take out the chiles?
+'serrano chile' not in mild_salsa
 
+# is the tomatillo still there, at least?
+'tomatillos' in mild_salsa
 ```
 
+---
 
+# Lists
+Continued...
+```python
+# what ingredients should we buy?
+unique_ingredients = set(mild_salsa)
+
+# how much of each?
+print('MILD SALSA VERDE - SHOPPING LIST')
+for ingredient in unique_ingredients:
+    num_to_buy = mild_salsa.count(ingredient)
+    print( '* {} x {}'.format(ingredient, num_to_buy).title() )
+```
 
 ---
 
@@ -89,7 +111,67 @@ class: center, middle
 ---
 
 # Tuples
-Good for grouping of dissimilar type values together into one immutable bundle.
+Like lists, but immutable.
+
+Often used for grouping of somewhat unrelated values together into one immutable bundle.
+```python
+features = ('immutable', 'unordered', 'be careful!')
+
+#doesn't work!
+features.append('hashable')
+
+#doesn't work!
+features.pop()
+
+#doesn't work!
+features.reverse()
+
+# etc...
+```
+
+---
+
+# Tuples
+Like lists, but immutable.
+
+Often used for grouping of somewhat unrelated values together into one immutable bundle.
+```python
+features = ('immutable', 'rigid', 'efficient', 'be careful!')
+
+my_favorites = (features[0], features[-1])
+# fine!
+
+features[1] = 'flexible'
+# crash!
+
+features.append('hashable')
+# crash!
+
+features.pop()
+# crash!
+
+features.reverse()
+# crash!
+```
+
+---
+
+# Tuples
+Can be written in shorthand
+
+```python
+x = (1, 2, 3)
+type(x)
+```
+
+Is the same as...
+
+```python
+x = 1, 2, 3
+type(x)
+```
+
+Both tuples.
 
 ---
 
@@ -100,10 +182,62 @@ class: center, middle
 ---
 
 # Other Sequence types
+All of these can be indexed numerically, sliced and diced, and looped through with `for` loops:
+- strings
+- lists
+- tuples
 - ranges
 - dict_keys
 - dict_values
-- strings
+- dict_items
+
+---
+
+# Other Sequence types
+```python
+# strings
+for c in 'charicature':
+    print(c)
+
+# ranges
+for i in range(10):
+    print(i)
+
+dining_hall = {'necessary': True, 'tasty': False}
+# dict_keys
+for key in dining_hall.keys():
+    print(key)
+
+# dict_values
+for value in dining_hall.values():
+    print(value)
+```
+
+---
+
+# Other Sequence types
+## Dictionary items
+```python
+dining_hall = {'necessary': True, 'tasty': False}
+
+# dict_items can be unpacked into two variables
+for key, value in dining_hall.items():
+    print(key, '=', value)
+```
+```console
+>>> necessary' = True
+>>> tasty = False
+```
+
+That's because each item is a tuple with two values in it.  See for yourself:
+```python
+for item in dining_hall.items():
+    print(item)
+```
+```console
+>>> ('necessary', True)
+>>> ('tasty', False)
+```
 
 ---
 
@@ -114,8 +248,23 @@ class: center, middle
 ---
 
 # Dictionaries
-Key->value pairs.
+Key->value pairs.  Not Sequences.  Unordered.  
 
+```python
+dining_hall = {'necessary': True, 'tasty': False}
+
+dining_hall['necessary']
+# fine
+
+dining_hall[1]
+# crash!
+
+dining_hall.reverse()
+# crash!
+
+dining_hall.sort()
+# crash!
+```
 ---
 
 class: center, middle
@@ -125,7 +274,33 @@ class: center, middle
 ---
 
 # Sets
-Nice to have.
+Like lists, but enforce uniqueness of values.  Good for doing unions, intersections, etc of data sets.
+
+```python
+core = set('tomatillos', 'serrano chile', 'garlic', 'onion')
+garnish = set('onion', 'cilantro', 'kosher salt')
+salsa_verde = core.union(garnish)
+print(salsa_verde)
+```
+```console
+>>> {'tomatillos', 'serrano chile', 'garlic', 'onion', 'cilantro', 'kosher salt'}
+```
+
+```python
+salsa_verde = core | garnish
+print(salsa_verde)
+```
+```console
+>>> {'tomatillos', 'serrano chile', 'garlic', 'onion', 'cilantro', 'kosher salt'}
+```
+
+```python
+redundant_ingredients = core & garnish
+print(redundant_ingredients)
+```
+```console
+>>> {'onion'}
+```
 
 ---
 
@@ -136,7 +311,94 @@ class: center, middle
 ---
 
 # Neverending arguments
-The * is bright.
+"Variadic" functions accept a variable number of arguments.
+
+```python
+def sum_however_many_args( *args ):
+    print(args)
+    print(type(args)) # tuple
+
+    # add them all up
+    total = 0
+    for arg in args:
+        total += arg
+
+    return total
+```
+
+Try it yourself:
+```python
+result = sum_however_many_args(1, 2, 3, 4, 5)
+print(result)
+```
+
+---
+
+# Neverending arguments
+"Variadic" functions can require positional args.
+
+```python
+def sum_at_least_two_args(a, b, *args ):
+    print(args)
+    print(type(args)) # tuple
+
+    # add them all up
+    total = a + b # start with the required args
+    for arg in args:
+        total += arg
+
+    return total
+```
+
+Try it yourself:
+```python
+result = sum_at_least_two_args(1, 2, 3, 4, 5)
+print(result)
+```
+
+---
+
+# Neverending arguments
+An arbitrary number of named arguments can be accepted into a dictionary parameter.
+
+```python
+def g( **kwargs ):
+    print(kwargs)
+```
+
+Try it yourself:
+```python
+g(a=1, b=2, c=3)
+```
+```console
+>>> {'a': 1, 'b': 2, 'c': 3}
+```
+
+---
+
+class: center, middle
+
+# Unpacking unpacking
+
+---
+
+# Unpacking unpacking
+The `*` before an an argument to a function call that is an iterable will break up, or unpack, the values into discrete values as separate arguments.
+
+```python
+x = ['Twas', 'brillig', 'and', 'the', 'slithy', 'toves']
+print(*x)
+```
+
+This is what is *not* printed (but would have been without the `*`):
+```console
+>>> ['Twas', 'brillig', 'and', 'the', 'slithy', 'toves']
+```
+
+It's as if each value in the list was passed as a discrete argument to the print function.
+```console
+>>> Twas brillig and the slithy toves
+```
 
 ---
 
