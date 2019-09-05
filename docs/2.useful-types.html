@@ -22,9 +22,8 @@ Data Management and Analysis
 7. Neverending arguments
 8. Unpacking unpacking
 9. Functions of the finest order
-10. Lambdas
-11. Decorators
-12. Conclusions
+10. Decorators
+11. Conclusions
 
 ---
 
@@ -376,6 +375,24 @@ g(a=1, b=2, c=3)
 
 ---
 
+# Neverending arguments
+And of course, with keyword args, it's possible to require a few positional arguments, neverending anonymous arguments, in addition to limitless, keyword args.
+
+```python
+def crazy(a, b, *args, **kwargs):
+    print(a, b, args, kwargs)
+```
+
+Try it yourself:
+```python
+crazy(1, 2, 3, 4, z=1)
+```
+```console
+>>> 1 2 (3, 4) {'z': 1}
+```
+
+---
+
 class: center, middle
 
 # Unpacking unpacking
@@ -411,16 +428,24 @@ class: center, middle
 # Functions of the finest order
 Functions can be passed around the table, like any other data.
 
----
+An innocent function:
+```python
+def bar():
+    print('hello')
+```
 
-class: center, middle
+A not-so-innocent function:
+```python
+def foo(func):
+    func()
+```
 
-# Lambdas
+Use the second function to call the first
+```python
+foo(bar)
+```
 
----
-
-# Lambdas
-Sounds like Greek.
+This can be useful in some design patterns.
 
 ---
 
@@ -431,7 +456,37 @@ class: center, middle
 ---
 
 # Decorators
-To make your windows pretty.
+Not just to make your windows pretty.
+
+Imagine this function
+```python
+def call_it(func, n):
+    def new_func(x):
+        res = x
+        for i in range(n):
+            res = func(res)
+        return(res)
+    return new_func
+```
+
+---
+
+# Decorators
+Functions that decorate othere functions.
+
+And this innocent function
+```python
+def double(num):
+    return num * 2
+```
+
+Triggered by another function
+```python
+my_func = call_it(double, 3)
+print(my_func(2))
+```
+
+This pattern is called the Decorator pattern.  The `call_it` function decorates, or adds features and functionality to the `double_num` function that don't exist in the original.
 
 ---
 
