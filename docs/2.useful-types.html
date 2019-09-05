@@ -50,21 +50,31 @@ Good for grouping of similar type values together into one bundle and performing
 
 Some things you can do with lists:
 ```python
-salsa_verde = ['tomatillos', 'jalepeños', 'garlic', 'cilantro', 'salt']
+# list of ingredients
+salsa_verde = ['tomatillos', 'serrano chile', 'garlic', 'onion', 'cilantro', 'kosher salt']
+
+# how many ingredients?
+len(salsa_verde)
 
 # grab the salt
-last_but_not_least = salsa_verde[-1]
+salsa_verde[-1]
 
 # pass the pepper
-mild = salsa_verde[0 :  salsa_verde.find('jalepeños')]
-mild = mild + salsa_verde[salsa_verde.find('jalepeños') : ]
+mild_salsa = salsa_verde[0 : salsa_verde.index('serrano chile')] + 
+                             salsa_verde[salsa_verde.index('serrano chile') + 1 : ]
 
-# mix it up
+# mix it all up
 import random
-random.shuffle(salsa_verde)
+random.shuffle(mild_salsa)
+mild_salsa
 
-# straighten it out and flip it in reverse
-salsa_verde.sort().reverse()
+# straighten it up and flip it in reverse
+mild_salsa.sort()
+mild_salsa.reverse()
+
+# treble the recipe
+mild_salsa = mild_salsa * 3
+
 
 ```
 
