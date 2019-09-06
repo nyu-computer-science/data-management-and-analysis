@@ -343,16 +343,16 @@ print(result)
 An arbitrary number of named arguments can be accepted into a dictionary parameter.
 
 ```python
-def g( **kwargs ):
+def jumblies( **kwargs ):
     print(kwargs)
 ```
 
 Try it yourself:
 ```python
-g(a=1, b=2, c=3)
+jumblies(they='sailed', away='in', a='sieve')
 ```
 ```console
->>> {'a': 1, 'b': 2, 'c': 3}
+>>> {'they': 'sailed', 'away': 'in', 'a': 'sieve'}
 ```
 
 ---
@@ -463,7 +463,7 @@ def make_pizza():
 
 Meatified by the `meatify` function
 ```python
-make_meat_lovers_pizza = meatify(make_some_pizza)
+make_meat_lovers_pizza = meatify(make_pizza)
 ```
 
 Now to make a meat lover's pizza:
