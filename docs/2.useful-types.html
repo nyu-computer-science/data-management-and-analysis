@@ -470,6 +470,9 @@ Now to make a meat lover's pizza:
 ```python
 make_meat_lovers_pizza()
 ```
+```console
+>>> pizza is made with bacon, sausage, and pepperoni
+```
 
 This pattern is called the Decorator pattern.  The `meatify` function decorates, or adds features (perhaps undesirable) and functionality to the `make_pizza` function that don't exist in the original.
 
@@ -496,7 +499,7 @@ def make_pizza():
     return 'pizza is made'
 ```
 
-Now calling `make_pizza()` will call the meatified version.
+Now calling `make_pizza()` itself will call the meatified version.
 
 ---
 
